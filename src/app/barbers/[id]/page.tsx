@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import api from '@/lib/api';
@@ -54,10 +54,24 @@ export default function BarberDetailPage() {
   const [notes, setNotes] = useState('');
   const [bookSuccess, setBookSuccess] = useState(false);
 
+  const fetchBarber = useCallback(async () => {
+    setLoadingBarber(true);
+    try {
+      const res = await api.get(`/barbers/${id}`);
+      if (res.data.success) setBarber(res.data.data.barber);
+      else setBarber(null);
+    } catch {
+      toast.error('Barber not found');
+      setBarber(null);
+    } finally {
+      setLoadingBarber(false);
+    }
+  }, [id]);
+
   useEffect(() => {
     if (!id) return;
     fetchBarber();
-  }, [id]);
+  }, [id, fetchBarber]);
 
   useEffect(() => {
     if (!id || !selectedDate) {
@@ -75,19 +89,6 @@ export default function BarberDetailPage() {
       .catch(() => setSlots([]))
       .finally(() => setLoadingSlots(false));
   }, [id, selectedDate]);
-
-  const fetchBarber = async () => {
-    try {
-      const res = await api.get(`/barbers/${id}`);
-      if (res.data.success) setBarber(res.data.data.barber);
-      else setBarber(null);
-    } catch {
-      toast.error('Barber not found');
-      setBarber(null);
-    } finally {
-      setLoadingBarber(false);
-    }
-  };
 
   const handleBook = async () => {
     if (!isAuthenticated) {

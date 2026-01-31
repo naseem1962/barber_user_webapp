@@ -1,1 +1,1 @@
-{"/_not-found/page":"/_not-found","/barbers/page":"/barbers","/dashboard/page":"/dashboard","/login/page":"/login","/page":"/","/register/page":"/register"}
+{"/_not-found/page":"/_not-found","/barbers/[id]/page":"/barbers/[id]","/barbers/page":"/barbers","/chat/page":"/chat","/dashboard/page":"/dashboard","/login/page":"/login","/page":"/","/register/page":"/register"}
