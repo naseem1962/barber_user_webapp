@@ -18,17 +18,18 @@ interface Appointment {
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { user, logout, isAuthenticated } = useAuthStore();
+  const { user, logout, isAuthenticated, _hasHydrated } = useAuthStore();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!_hasHydrated) return;
     if (!isAuthenticated) {
       router.push('/login');
       return;
     }
     fetchAppointments();
-  }, [isAuthenticated, router]);
+  }, [_hasHydrated, isAuthenticated, router]);
 
   const fetchAppointments = async () => {
     try {
@@ -41,7 +42,7 @@ export default function DashboardPage() {
     }
   };
 
-  if (!isAuthenticated || !user) return null;
+  if (!_hasHydrated || !isAuthenticated || !user) return null;
 
   const upcoming = appointments.filter((a) => a.status === 'pending' || a.status === 'confirmed');
 
