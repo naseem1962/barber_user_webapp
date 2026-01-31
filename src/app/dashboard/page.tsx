@@ -90,7 +90,7 @@ export default function DashboardPage() {
             { href: '/barbers', icon: '🔍', title: 'Find barbers', desc: 'Browse & book' },
             { href: '/barbers', icon: '🤖', title: 'AI style', desc: 'Recommendations' },
             { href: '/barbers', icon: '📱', title: 'Try style', desc: 'Before you cut' },
-            { href: '/barbers', icon: '💬', title: 'Messages', desc: 'Chat with barbers' },
+            { href: '/chat', icon: '💬', title: 'Messages', desc: 'Chat with barbers' },
           ].map((a) => (
             <Link
               key={a.href + a.title}

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -16,6 +16,8 @@ interface LoginForm {
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get('redirect') || '/dashboard';
   const { setAuth } = useAuthStore();
   const [loading, setLoading] = useState(false);
   const {
@@ -31,7 +33,7 @@ export default function LoginPage() {
       const { user, token } = response.data.data;
       setAuth(user, token);
       toast.success('Login successful!');
-      router.push('/dashboard');
+      router.push(redirect.startsWith('/') ? redirect : '/dashboard');
     } catch (error: any) {
       toast.error(error.response?.data?.error?.message || 'Login failed');
     } finally {
